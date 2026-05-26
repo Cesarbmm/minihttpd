@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>MiniHTTPd</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <main class="card">
+        <h1>MiniHTTPd</h1>
+        <p>Servidor HTTP/1.1 basico en C usando sockets, epoll y archivos estaticos.</p>
+
+        <section>
+            <h2>Pruebas implementadas</h2>
+            <ul>
+                <li>GET /index.html</li>
+                <li>GET /style.css</li>
+                <li>GET /image.png</li>
+                <li>404 Not Found</li>
+                <li>403 Forbidden contra directory traversal</li>
+                <li>405 Method Not Allowed para metodos distintos de GET</li>
+            </ul>
+        </section>
+
+        <img src="/image.png" alt="Imagen de prueba">
+    </main>
+</body>
+</html>

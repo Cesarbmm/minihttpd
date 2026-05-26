@@ -1,0 +1,5 @@
+minihttpd
+src/*.o
+*.log
+*.tmp
+*Zone.Identifier
