@@ -37,6 +37,7 @@ MiniHTTPd es un servidor HTTP/1.1 basico desarrollado en C para Linux. El servid
 
 ## Estructura del proyecto
 
+```text
 minihttpd/
 |-- Makefile
 |-- README.md
@@ -58,35 +59,43 @@ minihttpd/
     |-- index.html
     |-- style.css
 
+```
+
 ## Descripcion de los modulos
 
-main.c:
+**main.c:**
 Inicializa el servidor, ignora la senal SIGPIPE y ejecuta el bucle principal.
 
-server.c:
+**server.c:**
 Contiene la logica de sockets, configuracion no bloqueante, bind, listen, accept, registro en epoll, lectura, escritura y administracion de conexiones persistentes.
 
-http.c:
+**http.c:**
 Procesa solicitudes HTTP. Extrae metodo, URI, version y encabezados principales. Tambien genera encabezados y respuestas HTTP.
 
-files.c:
+**files.c:**
 Accede al sistema de archivos. Convierte una URI en una ruta dentro de www/, valida la ruta con realpath() y evita accesos fuera del directorio publico.
 
-mime.c:
+**mime.c:**
 Determina el tipo MIME de un archivo segun su extension.
 
 ## Compilacion
 
 Ejecutar:
 
+```bash
 make clean
 make
+
+```
 
 ## Ejecucion
 
 Ejecutar:
 
+```bash
 ./minihttpd 8080
+
+```
 
 El servidor escuchara en el puerto 8080.
 
@@ -94,22 +103,28 @@ El servidor escuchara en el puerto 8080.
 
 En otra terminal:
 
+```bash
 curl -i http://localhost:8080/
 curl -i http://localhost:8080/style.css
 curl -v http://localhost:8080/image.png -o /tmp/minihttpd_image.png
 curl -i http://localhost:8080/noexiste.html
 curl -i -X POST http://localhost:8080/
-curl -i --path-as-is http://127.0.0.1:8080/../../etc/passwd
+curl -i --path-as-is [http://127.0.0.1:8080/../../etc/passwd](http://127.0.0.1:8080/../../etc/passwd)
+
+```
 
 ## Prueba de conexion persistente
 
 Ejecutar:
 
+```bash
 {
 printf 'GET / HTTP/1.1\r\nHost: localhost\r\nConnection: keep-alive\r\n\r\n'
 sleep 1
 printf 'GET /style.css HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n'
 } | nc 127.0.0.1 8080
+
+```
 
 La respuesta debe contener dos respuestas HTTP/1.1 200 OK en la misma conexion TCP.
 
@@ -117,38 +132,52 @@ La respuesta debe contener dos respuestas HTTP/1.1 200 OK en la misma conexion T
 
 Ejecutar:
 
+```bash
 make test
+
+```
 
 Tambien se puede ejecutar directamente:
 
+```bash
 ./tests/run_tests.sh
+
+```
 
 El script valida:
 
-- 200 OK para /
-- 200 OK para /style.css
-- 200 OK para /image.png
-- MIME text/html
-- MIME text/css
-- MIME image/png
-- 404 Not Found
-- 405 Method Not Allowed
-- 403 Forbidden para Directory Traversal
-- 400 Bad Request
-- 400 Bad Request para solicitud demasiado grande
-- Keep-alive con dos solicitudes en una misma conexion
+* 200 OK para /
+* 200 OK para /style.css
+* 200 OK para /image.png
+* MIME text/html
+* MIME text/css
+* MIME image/png
+* 404 Not Found
+* 405 Method Not Allowed
+* 403 Forbidden para Directory Traversal
+* 400 Bad Request
+* 400 Bad Request para solicitud demasiado grande
+* Keep-alive con dos solicitudes en una misma conexion
 
 Resultado esperado:
 
+```text
 Aprobadas: 12
 Fallidas: 0
+
+```
 
 ## Limpieza
 
 Ejecutar:
 
+```bash
 make clean
+
+```
 
 ## Notas
 
 El servidor implementa conexiones persistentes basicas de forma secuencial. No implementa HTTP pipelining, TLS, compresion, cache avanzada, proxy reverso ni balanceo de carga, porque esos elementos estan fuera del alcance del MiniHTTPd.
+
+
